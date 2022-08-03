@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming to better understand Feron's paper</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="p5.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>  <!-- <script src="../addons/p5.sound.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.0.1/math.js" integrity="sha512-qUD6aWQY0c9uVWnPVcbUzQg9Q06qfCpZhOK7jbWDKEAuX+i6gwS5P2VoDe+ZghmUepiB1FtBY5gNosseexrt9Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="sketch.js"></script>
+</head>
+
+<body>
+  <h1>Coming at it from the other direction</h1>
+  <section>
+    <p>Before starting, bring to mind how a controller works.  It interacts with a plant by reading input from that plant, using some internal state to get an output value, then sending that to the plant.</p>
+    <p>We can represent that in a purely mathematical way with a recurrence relation like
+      $$
+      \begin{eqnarray}
+      S(0) &=& s_0 \\
+      O(n) &=& g(S(n), v) \\
+      S(n+1) &=& f(S(n), v) \\
+      \end{eqnarray}
+      $$
+    i.e. the output at any time \(n\) depends on the state of the controller at that time and the input at that time \(v\) passed through the actual computation \(g\).  The state at the next timepoint is also dependent on those two things, but by a different computation \(f\).
+    </p>
+    <p>This recurrence relation will work out the state of the controller at all moments in time, which we need for the ultimate goal, the output of the controller for all moments in time.</p>
+    <p>So, that is a mathematical abstraction of a controller, very good, but why?  <i>Because there are proofs of stability that work on this form of recurrence relation!</i>.  Even better, <i>Expressing the recurrence relation in this way has a direct translation into code!</i></p>
+    <pre>
+      state = state_0
+      while (true):
+        output = g(state, v)
+        state = f(state, v)
+    </pre>
+    <p>Not quite there because the <code>v</code> is just appearing and we are not sending the output anywhere so, for pure operations <code>read</code> and <code>write</code>, we have</p>
+    <pre>
+      state = state_0
+      while (true):
+        v = read()
+        output = g(state, v)
+        write(output)
+        state = f(state, v)
+    </pre>
+    <p>With the equivalence between the maths and the code established, we can turn our minds to understanding the proofs that operate on such recurrence relations.  Things are still far too abstract for me, so I decided to take a look at one of these controllers, to watch the values of \(S\), \(O\) and \(v\) for myself.  I implemented the lead-lag controller from Feron.</p>
+    </section>
+    <h1>The Controller</h1>
+    <section>
+    <p>Hold your mouse button to reposition the black circle, the error at any time is the distance to the green circle.  State for this controller is a 2x1 matrix, each component is graphed separately.  
+    </p>
+    <div id="sketch"></div>
+  </section>
+  <h1>What are these proofs on the recurrence relation/code you were talking about?</h1>
+  <section>
+    <p>We will build some intuition for the concepts here.<ol>
+      <li><a href="https://www.youtube.com/watch?v=uXAx_641FPM">intuitions about Lyapunov functions</a></li>
+      <li><a href="https://www.youtube.com/watch?v=td-d4Yi-81c">how does this relate to stability?</a></li>
+      <li><a href="https://www.youtube.com/watch?v=WNc7jWAKFTg">concrete example</a></li>
+      </ol>
+    </p>
+  </section>
+</body>
+
+</html>
