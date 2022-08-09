@@ -1,3 +1,5 @@
 tasks:
   - name: "install coq"
     init: sudo apt-get update; sudo apt-get -y install coq # runs during prebuild
+  - name: "run server"
+    command: pythong -m http.server

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spring motion in processing</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="p5.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>  <!-- <script src="../addons/p5.sound.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.0.1/math.js" integrity="sha512-qUD6aWQY0c9uVWnPVcbUzQg9Q06qfCpZhOK7jbWDKEAuX+i6gwS5P2VoDe+ZghmUepiB1FtBY5gNosseexrt9Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="spring.js"></script>
+</head>
+
+<body>
+  <p>I keep reading how a spring's dynamics is characterised as</p>
+  $$
+  \frac{d}{dt}x_p = \begin{bmatrix}0 & 1 \\ -1 & 0\end{bmatrix}x_p + \begin{bmatrix}0\\1\end{bmatrix}u
+  $$
+  <p>And I was quite confused really.  Turns out this just means "the change in position is due to velocity, the change in velocity is due to position (that's how springs work) and you add \(u\) to the velocity, not the position because it's a force."  In code, it is just</p>
+  <pre>
+  pos = pos + vel;
+  vel = vel - k*pos;
+  </pre>
+  <p>as this sketch shows</p>
+  <div id="spring"></div>
+</body>
+
+</html>
